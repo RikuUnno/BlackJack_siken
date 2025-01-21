@@ -49,6 +49,8 @@ static void showHand(Person* p, const char* name = "player")
 //メイン関数
 int main() {
 
+	// test
+
 	srand((unsigned int)time(NULL));
 
 	enum PERSON
