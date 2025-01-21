@@ -53,5 +53,22 @@ int Shoe::takeCard() {
 
 	int card = _cardShoe[_cardNum];
 
+	_cardNum--;
+
 	return card;
+}
+
+
+void Shoe::resetShoe()
+{
+	//やっていることはコンストラクタと同じ（カードのセットとシャッフル）
+
+	//カードを入れてく0.... /13でカード種類とする
+	for (int i = 0; i < NUM; i++) {
+		_cardShoe[i] = i;
+	}
+	_cardNum = NUM; //カード枚数の設定
+
+	//シャッフル
+	_shuffle();
 }

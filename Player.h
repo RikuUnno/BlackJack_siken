@@ -5,7 +5,9 @@
 //プレイヤークラス
 class Player : public Person
 {
-protected:
+public:
+	Player(const char* name);
+
 	//ゲーム実行
 	void playBase(Shoe* shoe);
 

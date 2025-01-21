@@ -27,5 +27,8 @@ public:
 
 	//カードシューを表示(デバッグ用)
 	void showShoe(SHOW_TYPE type = CARD_ONLY) const;
+
+	//ガードがなくなったときのリセット
+	void resetShoe();
 };
 

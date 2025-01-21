@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <algorithm>
 
@@ -6,12 +7,28 @@
 
 using namespace std;
 
-Person::Person()
+Person::Person(const char* name)
 {
+	_name = new(nothrow) char[strlen(name) + 1];
+
+	if (_name != nullptr)
+	{
+		strcpy(_name, name);
+	}
+
 	fill_n(_hand, HAND_SIZE, -1);
 	_cardNum = 0;
 	_calcUpdate = false;
 	_score = 0;
+}
+
+Person::~Person()
+{
+	if (_name != nullptr)
+	{
+		delete[] _name;
+		_name = nullptr;
+	}
 }
 
 //スコアの計算
@@ -88,21 +105,27 @@ int Person::getScore()
 }
 
 //手持ちにカードの追加
-void Person::hit(Shoe shoe) {
-	int card = shoe.takeCard();
-	if (card >= 0) {
-		_hand[_cardNum] = card;
-		_cardNum++;
-		_calcUpdate = true;
-	}
-	else
+void Person::hit(Shoe* shoe) {
+	int card = shoe->takeCard();
+	while (true)
 	{
-		cout << "カードが引けませんでした。" << endl;
+		if (card >= 0) {
+			_hand[_cardNum] = card;
+			_cardNum++;
+			_calcUpdate = true;
+			break;
+		}
+		else
+		{
+			shoe->resetShoe();
+		}
 	}
 }
 
 //手札を表示
 void Person::showHand() {
+	//名前もこっちで表示する
+	cout << _name << endl;
 	//標準出力
 	cout << "hand: ";
 	//配列の最初から最後までを順に表示
@@ -127,6 +150,11 @@ bool Person::play(Shoe* shoe)
 
 	if (getScore() <= 0) return false;
 	return true;
+}
+
+char* Person::getName() const
+{
+	return _name;
 }
 
 //// ターンメイン処理
